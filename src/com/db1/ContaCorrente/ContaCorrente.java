@@ -1,10 +1,10 @@
-package com.db1.ContaCorrente;
+package com.db1.contacorrente;
 
 import java.util.ArrayList;
 
 import java.util.List;
 
-import com.db1.ContaCorrente.infra.Verificadora;
+import com.db1.contacorrente.infra.Verificadora;
 
 // Comportamentos
 // depositar
@@ -25,6 +25,7 @@ public class ContaCorrente {
 	private List<String> historico;
 
 	public ContaCorrente(String agencia, String numero, String cliente) {
+		
 		Verificadora.verificaStringValida(agencia, "Deve ser informada uma  agência válida");
 		Verificadora.verificaStringValida(numero, "Deve ser informada um número de conta válido");
 		Verificadora.verificaStringValida(cliente, "Deve ser informada um cliente válido");
@@ -39,6 +40,11 @@ public class ContaCorrente {
 		Verificadora.valorMaiorQueZero(valor, "Valor a ser depositado deve ser maior que zero");
 		this.saldo += valor;
 		this.historico.add("Depositado: "+ valor);
+	}
+	
+	public void sacar(Double valor) {
+		this.saldo -= valor;
+		this.historico.add("Sacado: " + valor);
 	}
 	
 	public String getAgencia() {

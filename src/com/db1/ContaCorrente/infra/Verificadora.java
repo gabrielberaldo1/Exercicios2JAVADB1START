@@ -1,4 +1,4 @@
-package com.db1.ContaCorrente.infra;
+package com.db1.contacorrente.infra;
 
 public class Verificadora {
 	

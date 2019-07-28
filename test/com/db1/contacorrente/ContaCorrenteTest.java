@@ -1,9 +1,9 @@
-package Test;
-import org.junit.Assert;
+package com.db1.contacorrente;
 
+import org.junit.Assert;
 import org.junit.Test;
 
-import com.db1.ContaCorrente.ContaCorrente;
+import com.db1.contacorrente.ContaCorrente;
 
 public class ContaCorrenteTest {
 	
@@ -55,8 +55,10 @@ public class ContaCorrenteTest {
 		Assert.assertEquals("0465", contaCorrente.getAgencia());
 		Assert.assertEquals("000099999999", contaCorrente.getNumero());
 		Assert.assertEquals("Cliente Nome", contaCorrente.getCliente());
+		Assert.assertEquals(0.0, contaCorrente.getSaldo(), 0.0001);
+		Assert.assertEquals(0, contaCorrente.getHistorico().size());
 	}
-
+	
 	@Test
 	public void deveRetornarExcecaoQuandoValorDepositadoInvalido() {
 		ContaCorrente contaCorrente = new ContaCorrente("0465",  "000099999999",  "Cliente Nome");
@@ -70,7 +72,36 @@ public class ContaCorrenteTest {
 		Assert.assertEquals(0.0, contaCorrente.getSaldo(), 0.0001);
 		Assert.assertEquals(0, contaCorrente.getHistorico().size());
 	}
-
+	
+	@Test
+	public void deveRetornarExcecaoQuandoValorDepositadoForZero() {
+		ContaCorrente contaCorrente = new ContaCorrente("0465",  "000099999999",  "Cliente Nome");
+		String mensagem = null;
+		try {
+			contaCorrente.depositar(0.0);
+		} catch (RuntimeException e) {
+			mensagem = e.getMessage();
+		}
+		Assert.assertEquals("Valor a ser depositado deve ser maior que zero", mensagem);
+		Assert.assertEquals(0.0, contaCorrente.getSaldo(), 0.0001);
+		Assert.assertEquals(0, contaCorrente.getHistorico().size());
+	}
+	
+	
+	@Test
+	public void deveRetornarExcecaoQuandoValorDepositadoForNull() {
+		ContaCorrente contaCorrente = new ContaCorrente("0465",  "000099999999",  "Cliente Nome");
+		String mensagem = null;
+		try {
+			contaCorrente.depositar(null);
+		} catch (RuntimeException e) {
+			mensagem = e.getMessage();
+		}
+		Assert.assertEquals("Valor a ser depositado deve ser maior que zero", mensagem);
+		Assert.assertEquals(0.0, contaCorrente.getSaldo(), 0.0001);
+		Assert.assertEquals(0, contaCorrente.getHistorico().size());
+	}
+	
 	@Test
 	public void deveDepositarValor() {
 		ContaCorrente contaCorrente = new ContaCorrente("0465",  "000099999999",  "Cliente Nome");
@@ -78,6 +109,14 @@ public class ContaCorrenteTest {
 		
 		Assert.assertEquals(100.0, contaCorrente.getSaldo(), 000.1);
 		Assert.assertEquals("Depositado: 100.0", contaCorrente.getHistorico().get(0));
-		
 	}
+	@Test
+	public void deveSacarValor() {
+		ContaCorrente contaCorrente = new ContaCorrente("0465",  "000099999999",  "Cliente Nome");
+		contaCorrente.sacar(40.0);
+	
+		Assert.assertEquals(-40.0, contaCorrente.getSaldo(), 000.1);
+		Assert.assertEquals("Sacado: 40.0", contaCorrente.getHistorico().get(0));
+	}
+
 }
