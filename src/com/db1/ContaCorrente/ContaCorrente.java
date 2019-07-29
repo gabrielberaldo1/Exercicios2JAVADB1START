@@ -43,6 +43,7 @@ public class ContaCorrente {
 	}
 	
 	public void sacar(Double valor) {
+		Verificadora.valorMaiorQueZero(valor, "Valor a ser sacado deve ser maior que zero");
 		this.saldo -= valor;
 		this.historico.add("Sacado: " + valor);
 	}
